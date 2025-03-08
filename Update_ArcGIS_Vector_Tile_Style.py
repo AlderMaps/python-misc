@@ -26,9 +26,11 @@ newstyle = r"C:\your-dir-goes-here\your-style-file-name_NEW.json"
 with open(style) as s:
     data = json.load(s)
 
-# The json data is loaded as a list of dictionaries.
+# The json data is loaded as a Python dictionary.
+# I'm interested in the value at the key "layers";
+# this value itself is a list of dictionaries.
 # I start off by looping through the list:
-for dict in data:
+for dict in data["layers"]:
 
     # Next, I loop through the key-value pairs in each dictionary:
     for k, v in dict.items():
