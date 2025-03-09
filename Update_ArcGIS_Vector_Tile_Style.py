@@ -6,12 +6,9 @@
 # This particular script updates the value for all instance of the key "minzoom"
 # but could easily be modified to update other key-value pairs as needed.
 
-# NOTE: To update the JSON in my style in AGOL, I open the "newstyle" file
-# (the output file of this script), and copy / paste the whole thing
-# directly into the JSON viewer in Vector Tile Style Editor, then save the style.
-# I think I should be able to update it on the style Item page too...
-# ...but this has produced...unexpected results. XD 
-# I have not pinned down why. Works just fine in the Tile Style editor though!
+# NOTE: To update the JSON in AGOL, go to the Item page of your copy
+# of the style, select the "Update" button,and drag your NEW .json file
+# (output of the script) into the dialoge box--boom, that's it!
 
 import json
 
@@ -39,27 +36,13 @@ for dict in data["layers"]:
         # if the key is equal to what we want to change, "minzoom":
         if k == "minzoom":
 
-            # If I'm at a small scale (i.e. zoomed far out),
-            # I don't want to change the minzoom *quite as much*
-            # as if I'm at a large scale (zoomed farther in).
-            # So I check if the current minzoom value is less than 10:
-            if v < 10:
+            # Subtract 2 from the current value--
+            # in other words, lower the minimum zoom value by two,
+            # and set that as the new value for the current key:
+            dict[k] = v - 2
 
-                # If it is, subtract 2 from the current value
-                # and set that as the new value for the current key:
-                dict[k] = v - 2
-
-                # Print statement to tell me what values were updated:
-                print(f"Changed val from {v} to {v-2}")
-
-            # Now I deal with any values of minzoom greater than or equal to 10:
-            else:
-
-                # In this case I want to decrease the minvalue by 3 instead of 2:
-                dict[k] = v - 3
-
-                # Again, print statement to keep track of changes:
-                print(f"Changed val from {v} to {v-3}")
+            # Print statement to tell me what values were updated:
+            print(f"Changed val from {v} to {v-2}")
 
 # That's all folks! My JSON has been updated;
 # the only thing left to do is save it as a new file:
